@@ -1,0 +1,252 @@
+body {
+    background-color: #f3f3f3;
+    backface-visibility: hidden;
+}
+
+p {
+    margin: 2px;
+    padding: 1px;
+}
+
+.nav-bar-scroll {
+    background-color: rgb(255, 255, 255);
+    color: black !important;
+    box-shadow: 0px 3px 10px black;
+}
+
+.nav-link {
+    text-decoration: none;
+    color: white !important;
+}
+
+.nav-link-scroll {
+    text-decoration: none;
+    color: black !important;
+}
+
+.monospace {
+    font-family: monospace;
+}
+
+.comic {
+    font-family: "Comic Sans MS", cursive, sans-serif;
+}
+
+.verdana {
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+#head-background {
+    background-size: cover;
+    background-position: top;
+    background-image: url('../img/accounting-achievement-aerial-1043506.jpg');
+    background-color: rgba(00, 0, 0, .6);
+    background-blend-mode: overlay;
+    height: 80vh;
+}
+
+#right-head {
+    border-left: 2px solid #65d73a;
+    animation: move-right 2s .7s ease-in-out;
+    animation-fill-mode: backwards;
+}
+
+#left-head {
+    animation: move-left 2s 1.2s ease-in-out;
+    animation-fill-mode: backwards;
+}
+
+#head-text {
+    padding-top: 200px !important;
+    height: 70vh;
+}
+
+.text-white {
+    color: #ffffff;
+}
+
+#join-button {
+    animation: display 1.3s 4s ease-in;
+    animation-fill-mode: backwards;
+}
+
+#animate {
+    animation: display 1s ease-in-out;
+}
+
+#how-it-works {
+    background: linear-gradient(to bottom left, #28a745, #65d73a);
+}
+
+.container-pad {
+    padding-left: 20%;
+    padding-right: 20%;
+    margin-bottom: 10px;
+}
+
+#step-1 {
+    background-image: url('../img/mastercard.png');
+    background-size: cover;
+    background-color: rgba(00, 0, 0, .8);
+    background-position: center;
+    background-blend-mode: overlay;
+}
+
+@media screen and (max-width: 600px) {
+    #head-text {
+        padding-top: 150px !important;
+        height: 70vh;
+    }
+    #right-head {
+        display: none;
+    }
+    #left-head {
+        text-align: center !important;
+    }
+}
+
+@keyframes move-left {
+    0% {
+        opacity: 0;
+        transform: translateX(-25px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes move-right {
+    0% {
+        opacity: 0;
+        transform: translateX(25px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes display {
+    0% {
+        opacity: 0;
+        transform: scale(.2, 1);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1, 1);
+    }
+}
+
+@keyframes gentle-move {
+    0% {
+        transform: translateY(0px);
+    }
+    20% {
+        transform: translateY(30px);
+    }
+    80% {
+        transform: translateY(-30px);
+    }
+    100% {
+        transform: translateY(0px);
+    }
+}
+
+.wrapper {
+    display: flex;
+    width: 100%;
+    align-items: stretch;
+}
+
+#sidebar {
+    min-width: 250px;
+    max-width: 250px;
+    min-height: 100vh;
+    color: #fff;
+    transition: all 0.3s;
+    background-image: url('../img/adolescent-bag-beautiful-919436.jpg');
+    background-size: cover;
+    background-color: rgba(00, 0, 0, .8);
+    background-position: center;
+    background-blend-mode: overlay;
+}
+
+#navbar-head {
+    background-image: url('../img/accounting-achievement-aerial-1043506.jpg');
+    background-size: cover;
+    background-color: rgba(00, 0, 0, .9);
+    background-position: center;
+    background-blend-mode: overlay;
+}
+
+#sidebar a {
+    text-decoration: none !important;
+    color: white !important;
+}
+
+#sidebar.active {
+    margin-left: -250px;
+}
+
+a[data-toggle="collapse"] {
+    position: relative;
+}
+
+.dropdown-toggle::after {
+    display: block;
+    position: absolute;
+    top: 50%;
+    right: 20px;
+    transform: translateY(-50%);
+}
+
+@media (max-width: 768px) {
+    #sidebar {
+        margin-left: -250px;
+    }
+    #sidebar.active {
+        margin-left: 0;
+    }
+}
+
+#sidebar .sidebar-header {
+    padding: 20px;
+    /* background: linear-gradient(to bottom, #65d73a, #28a745); */
+}
+
+#nav-head {
+    background: linear-gradient(to bottom, #65d73a, #28a745);
+}
+
+#sidebar ul.components {
+    padding: 20px 0;
+    border-bottom: 1px solid gray;
+}
+
+#sidebar ul p {
+    color: #fff;
+    padding: 10px;
+}
+
+#sidebar ul li a {
+    padding: 10px;
+    font-size: 1.1em;
+    display: block;
+}
+
+#sidebar ul li a:hover {
+    color: #f3f3f3;
+    background: #fff;
+}
+
+#sidebar ul li.active>a,
+a[aria-expanded="true"] {
+    color: #fff;
+    background: #28a745;
+}
+
+#sidebar a:hover {
+    color: black !important;
+    background-color: #65d73a;
+}
