@@ -24,6 +24,13 @@ p {
     color: black !important;
 }
 
+
+/* fonts */
+
+.fantasy {
+    font-family: fantasy;
+}
+
 .monospace {
     font-family: monospace;
 }
@@ -39,14 +46,14 @@ p {
 #head-background {
     background-size: cover;
     background-position: top;
-    background-image: url('../img/accounting-achievement-aerial-1043506.jpg');
+    background-image: url('../img/apple-brainstorming-business-908288.jpg');
     background-color: rgba(00, 0, 0, .6);
     background-blend-mode: overlay;
-    height: 80vh;
+    height: 100vh;
 }
 
 #right-head {
-    border-left: 2px solid #65d73a;
+    border-left: 2px solid #6f42c1;
     animation: move-right 2s .7s ease-in-out;
     animation-fill-mode: backwards;
 }
@@ -75,7 +82,7 @@ p {
 }
 
 #how-it-works {
-    background: linear-gradient(to bottom left, #28a745, #65d73a);
+    background: linear-gradient(to bottom left, #b666d2, #6f42c1);
 }
 
 .container-pad {
@@ -92,6 +99,9 @@ p {
     background-blend-mode: overlay;
 }
 
+
+/* Animations */
+
 @media screen and (max-width: 600px) {
     #head-text {
         padding-top: 150px !important;
@@ -103,6 +113,132 @@ p {
     #left-head {
         text-align: center !important;
     }
+}
+
+
+/* Sidenav */
+
+.separator {
+    display: block;
+    height: 1px;
+    border: 0;
+    border-top: 1px solid #ccc;
+    margin: 0;
+    padding: 0;
+}
+
+.wrapper {
+    display: flex;
+    width: 100%;
+    align-items: stretch;
+}
+
+#sidebar {
+    min-width: 250px;
+    max-width: 250px;
+    min-height: 100vh;
+    color: #fff;
+    transition: all 0.3s;
+    background-image: url('../img/adolescent-bag-beautiful-919436.jpg');
+    background-size: cover;
+    background-color: rgba(00, 0, 0, .8);
+    background-position: center;
+    background-blend-mode: overlay;
+}
+
+#navbar-head {
+    background-image: url('../img/blur-business-chart-159888.jpg');
+    background-size: cover;
+    background-color: rgba(255, 255, 255, 0.6);
+    background-position: center;
+    background-blend-mode: overlay;
+}
+
+#sidebar a {
+    text-decoration: none !important;
+    color: white !important;
+}
+
+#sidebar.active {
+    margin-left: -250px;
+}
+
+a[data-toggle="collapse"] {
+    position: relative;
+}
+
+.dropdown-toggle::after {
+    display: block;
+    position: absolute;
+    top: 50%;
+    right: 20px;
+    transform: translateY(-50%);
+}
+
+@media (max-width: 768px) {
+    #sidebar {
+        margin-left: -250px;
+    }
+    #sidebar.active {
+        margin-left: 0;
+    }
+}
+
+#sidebar .sidebar-header {
+    padding: 20px;
+    /* background: linear-gradient(to bottom, #65d73a, #28a745); */
+}
+
+#nav-head {
+    background: linear-gradient(to bottom, #b666b6, #6f42c1);
+}
+
+#sidebar ul.components {
+    padding: 20px 0;
+    border-bottom: 1px solid gray;
+}
+
+#sidebar ul p {
+    color: #fff;
+    padding: 10px;
+}
+
+#sidebar ul li a {
+    padding: 10px;
+    font-size: 1.1em;
+    display: block;
+}
+
+#sidebar ul li a:hover {
+    color: #f3f3f3;
+    background: #fff;
+}
+
+#sidebar ul li.active>a,
+a[aria-expanded="true"] {
+    color: #fff;
+    background: #6f42c1;
+}
+
+#sidebar a:hover {
+    color: black !important;
+    background-color: #b666d2;
+}
+
+#delta-flow hr {
+    display: block;
+    border-top: 2px solid #6f42c1;
+    left: 0px;
+    width: 100%;
+    margin: 0;
+}
+
+#delta-flow hr#thread1 {
+    top: 0.8em;
+    -webkit-animation: thread2 6s infinite;
+    -moz-animation: thread2 10s infinite;
+    -o-animation: thread2 10s infinite;
+    animation: thread2 10s infinite;
 }
 
 @keyframes move-left {
@@ -153,100 +289,62 @@ p {
     }
 }
 
-.wrapper {
-    display: flex;
-    width: 100%;
-    align-items: stretch;
-}
-
-#sidebar {
-    min-width: 250px;
-    max-width: 250px;
-    min-height: 100vh;
-    color: #fff;
-    transition: all 0.3s;
-    background-image: url('../img/adolescent-bag-beautiful-919436.jpg');
-    background-size: cover;
-    background-color: rgba(00, 0, 0, .8);
-    background-position: center;
-    background-blend-mode: overlay;
-}
-
-#navbar-head {
-    background-image: url('../img/accounting-achievement-aerial-1043506.jpg');
-    background-size: cover;
-    background-color: rgba(00, 0, 0, .9);
-    background-position: center;
-    background-blend-mode: overlay;
-}
-
-#sidebar a {
-    text-decoration: none !important;
-    color: white !important;
-}
-
-#sidebar.active {
-    margin-left: -250px;
-}
-
-a[data-toggle="collapse"] {
-    position: relative;
-}
-
-.dropdown-toggle::after {
-    display: block;
-    position: absolute;
-    top: 50%;
-    right: 20px;
-    transform: translateY(-50%);
-}
-
-@media (max-width: 768px) {
-    #sidebar {
-        margin-left: -250px;
+@-webkit-keyframes thread2 {
+    0% {
+        width: 100%;
     }
-    #sidebar.active {
-        margin-left: 0;
+    50% {
+        width: 100%;
+    }
+    80% {
+        width: 0px;
+    }
+    100% {
+        width: 100%;
     }
 }
 
-#sidebar .sidebar-header {
-    padding: 20px;
-    /* background: linear-gradient(to bottom, #65d73a, #28a745); */
+@-moz-keyframes thread2 {
+    0% {
+        width: 100%;
+    }
+    50% {
+        width: 100%;
+    }
+    80% {
+        width: 0px;
+    }
+    100% {
+        width: 100%;
+    }
 }
 
-#nav-head {
-    background: linear-gradient(to bottom, #65d73a, #28a745);
+@-o-keyframes thread2 {
+    0% {
+        width: 100%;
+    }
+    50% {
+        width: 100%;
+    }
+    80% {
+        width: 0px;
+    }
+    100% {
+        width: 100%;
+    }
 }
 
-#sidebar ul.components {
-    padding: 20px 0;
-    border-bottom: 1px solid gray;
-}
-
-#sidebar ul p {
-    color: #fff;
-    padding: 10px;
-}
-
-#sidebar ul li a {
-    padding: 10px;
-    font-size: 1.1em;
-    display: block;
-}
-
-#sidebar ul li a:hover {
-    color: #f3f3f3;
-    background: #fff;
-}
-
-#sidebar ul li.active>a,
-a[aria-expanded="true"] {
-    color: #fff;
-    background: #28a745;
-}
-
-#sidebar a:hover {
-    color: black !important;
-    background-color: #65d73a;
+@keyframes thread2 {
+    0% {
+        width: 100%;
+    }
+    50% {
+        width: 100%;
+    }
+    80% {
+        width: 0px;
+    }
+    100% {
+        width: 100%;
+    }
 }
