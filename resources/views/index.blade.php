@@ -81,6 +81,16 @@
                 <button type="button" class="btn btn-purple" data-toggle="modal" id="join-button" data-target="#exampleModal">
                         Join Today
                     </button>
+                    @if(isset($errors) && count($errors)>0)
+                    @foreach($errors->all() as $error)    
+                        <div class="alert alert-warning alert-dismissible fade show " role="alert">
+                            {{$error}}
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        @endforeach
+                    @endif
                 <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                     <div class="modal-dialog" role="document">
                         <div class="modal-content">
@@ -94,36 +104,54 @@
                                                 <h4 class="card-title mt-2">Sign up</h4>
                                             </header>
                                             <article class="card-body">
-                                                <form>
+                                            <form action="{{ route('register') }}" method="POST">
+                                                @csrf
                                                     <div class="form-row">
-                                                        <div class="col form-group text-left font-weight-bold">
-                                                            <label>First name </label>
-                                                            <input type="text" required class="form-control" name="fname" placeholder="Enter Firstname">
-                                                        </div>
-                                                        <!-- form-group end.// -->
-                                                        <div class="col form-group text-left font-weight-bold">
-                                                            <label>Last name</label>
-                                                            <input type="text" required class="form-control" name="lname" placeholder="Enter Lastname ">
-                                                        </div>
-                                                        <!-- form-group end.// -->
-                                                    </div>
-                                                    <!-- form-row end.// -->
-                                                    <div class="form-group text-left font-weight-bold">
-                                                        <label>Username </label>
-                                                        <input type="text" required class="form-control" name="username" placeholder="Choose a username">
+                                                            <label class="font-weight-bold"> Fullname </label>
+                                                            <input type="text" required class="form-control
+                                                            {{ $errors->has('name') ? ' is-invalid' : '' }}" name="name"
+                                                            value=" {{ old('name') }} "
+                                                            placeholder="Enter Fullname" autofocus>
 
-                                                    </div>
+                                                            @if ($errors->has('name'))
+                                                                <span class="invalid-feedback" role="alert">
+                                                                    <strong>{{ $errors->first('name') }}</strong>
+                                                                </span>
+                                                            @endif
+                                                        
+                                                    </div> 
+                                                    <!-- form-row end.// -->
+                                                    {{-- <div class="form-group text-left font-weight-bold">
+                                                        <label>Username </label>
+                                                        <input type="text" required class="form-control {{ $errors->has('username') ? ' is-invalid' : '' }}"
+                                                        value="{{ old('username') }}" name="username" placeholder="Choose a username">
+                                                        
+                                @if ($errors->has('username'))
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $errors->first('username') }}</strong>
+                                </span>
+                            @endif
+                                                        
+                                                    </div> --}}
                                                     <div class="form-group text-left font-weight-bold">
                                                         <label>Email address</label>
-                                                        <input type="email" required class="form-control" name="email" placeholder="Enter Email address">
+                                                        <input type="email" required class="form-control {{ $errors->has('email') ? ' is-invalid' : '' }}"
+                                                        value="{{ old('email') }}" name="email" placeholder="Enter Email address">
                                                         <small class="form-text text-muted">We'll never share your email with anyone else.</small>
+                                                        
+                                @if ($errors->has('email'))
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $errors->first('email') }}</strong>
+                                </span>
+                            @endif
                                                     </div>
                                                     <!-- form-group end.// -->
 
-                                                    <div class="form-row">
+                                                    {{-- <div class="form-row">
                                                         <div class="form-group text-left font-weight-bold col-md-6">
                                                             <label>Account Number</label>
-                                                            <input type="number" required class="form-control" name="accnumber" placeholder="Enter your bank account number">
+                                                            <input type="number" required class="form-control {{ $errors->has('accnumber') ? ' is-invalid' : '' }}" name="accnumber"
+                                                            value=" {{ old('accnumber') }} " placeholder="Enter your bank account number">
                                                         </div>
                                                         <!-- form-group end.// -->
                                                         <div class="form-group text-left font-weight-bold col-md-6">
@@ -152,13 +180,30 @@
                                                                     <option value="wema-bank">Wema Bank</option>
                                                                     <option value="zenith-bank">Zenith Bank</option>
                                                             </select>
-                                                        </div>
+                                                            
+                                @if ($errors->has('bank'))
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $errors->first('bank') }}</strong>
+                                </span>
+                            @endif
+                                                        </div> --}}
                                                         <!-- form-group end.// -->
                                                     </div>
                                                     <!-- form-row.// -->
                                                     <div class="form-group text-left font-weight-bold">
                                                         <label class="text-left">Create password</label>
                                                         <input class="form-control" required type="password" name="password" placeholder="Create Password">
+                                                        
+                                @if ($errors->has('password'))
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $errors->first('password') }}</strong>
+                                    </span>
+                                @endif
+                                                    </div>
+                                                    
+                                                    <div class="form-group text-left font-weight-bold">
+                                                        <label class="text-left">confirm password</label>
+                                                        <input class="form-control" required type="password" name="password_confirmation" placeholder="Create Password">
                                                     </div>
                                                     <!-- form-group end.// -->
                                                     <div class="form-group">
@@ -404,18 +449,32 @@
                 <!--Body-->
                 <div class="modal-body">
 
-                    <form action="">
+                    <form action=" {{ route('login') }} " method="POST">
+                        @csrf
                         <!-- Material input name -->
                         <div class="md-form form-sm">
                             <i class="fa fa-envelope prefix"></i>
-                            <input type="text" name="email" id="materialFormNameModalEx1" class="form-control form-control-sm">
+                            <input type="text" name="email" id="materialFormNameModalEx1" class="form-control {{ $errors->has('email') ? ' is-invalid' : '' }}" >
                             <label for="materialFormNameModalEx1">Your Email</label>
+
+                        @if ($errors->has('email'))
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{ $errors->first('email') }}</strong>
+                            </span>
+                        @endif
                         </div>
 
                         <!-- Material input email -->
                         <div class="md-form form-sm">
                             <i class="fa fa-lock prefix"></i>
-                            <input type="password" name="password" id="materialFormEmailModalEx1" class="form-control form-control-sm">
+                            <input type="password" name="password" id="materialFormEmailModalEx1" class="form-control {{ $errors->has('password') ? ' is-invalid' : '' }}">
+                            
+                            @if ($errors->has('password'))
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $errors->first('password') }}</strong>
+                                    </span>
+                            @endif
+
                             <label for="materialFormEmailModalEx1">Password</label>
                         </div>
 

@@ -81,11 +81,12 @@
                             <i class="fa fa-bars text-dark" style="font-size:25px"></i>
                         </button>
                         <img src="img/favicon.png" class="d-inline-block mx-auto" alt="Logo" width="150px">
-                        <form>
-                            <button class="btn btn-dark btn-sm">
-                            <span class="fa fa-sign-out"></span> Sign Out
-                        </button>
-                        </form>
+                        <form action="{{ route('logout') }}" method="POST">
+                                @csrf
+                                <button class="btn btn-dark btn-sm">
+                                    <span class="fa fa-sign-out"></span> Sign Out
+                                </button>
+                            </form>
                     </div>
                 </nav>
                 <p>

@@ -35,9 +35,9 @@
                 <ul class="list-unstyled components">
                     <p>
                         <span class="d-inline-block mr-1 fa fa-user"></span>
-                        <span class="comic">Jhhames </span>
+                        <span class="comic"> {{ Auth::user()->name }}  </span>
 
-                        <span class="badge badge-light">Bal: $50,0299 </span>
+                        <span class="badge badge-light">Bal: $50,999 </span>
                     </p>
                     <hr class="separator">
                     <li>
@@ -70,11 +70,12 @@
                             <i class="fa fa-bars text-dark" style="font-size:25px"></i>
                         </button>
                         <img src="img/favicon.png" class="d-inline-block mx-auto" alt="Logo" width="150px">
-                        <form>
-                            <button class="btn btn-dark btn-sm">
-                            <span class="fa fa-sign-out"></span> Sign Out
-                        </button>
-                        </form>
+                        <form action="{{ route('logout') }}" method="POST">
+                                @csrf
+                                <button class="btn btn-dark btn-sm">
+                                    <span class="fa fa-sign-out"></span> Sign Out
+                                </button>
+                            </form>
                     </div>
                 </nav>
                 <p>
@@ -162,7 +163,7 @@
                         </button>
                             </div>
                             <div class="modal-body">
-                                <form>
+                            <form action="{{ route('/api/savings') }}" method="POST">
                                     <div class="row">
                                         <div class="form-group col-md-12">
                                             <label for="benName" class="font-weight-bold">Savings Title</label>

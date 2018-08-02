@@ -38,6 +38,9 @@
                     <a href="" aria-expanded="false"> <span class="fa fa-home"></span> Home</a>
                 </li>
                 <li>
+                    <a href="#"><span class="fa fa-user-plus"></span> Add Details </a>
+                </li>
+                <li>
                     <a href="#"><span class="fa fa-briefcase"></span> Savings </a>
                 </li>
                 <li>
@@ -50,8 +53,19 @@
                 <li>
                     <a href="#"><span class="fa fa-calendar"></span> Transaction History </a>
                 </li>
+                
                 <li>
-                    <a href="#"><span class="fa fa-question-circle"></span> Help </a>
+
+                    <a href=""   onclick="event.preventDefault();
+                    document.getElementById('logout-form').submit();">
+                        <span class="fa fa-sign-out"></span> Logout
+                    </a>
+
+                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                        @csrf
+                    </form>
+
+                    </a>
                 </li>
             </ul>
 
@@ -64,7 +78,8 @@
                             <i class="fa fa-bars text-dark" style="font-size:25px"></i>
                         </button>
                     <img src="img/favicon.png" class="d-inline-block mx-auto" alt="Logo" width="150px">
-                    <form>
+                    <form action="{{ route('logout') }}" method="POST">
+                        @csrf
                         <button class="btn btn-dark btn-sm">
                             <span class="fa fa-sign-out"></span> Sign Out
                         </button>

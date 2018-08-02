@@ -29,7 +29,7 @@
             <ul class="list-unstyled components">
                 <p>
                     <span class="d-inline-block mr-1 fa fa-user"></span>
-                    <span class="comic">Jhhames </span>
+                    <span class="comic"> {{ Auth::user()->name}} </span>
 
                     <span class="badge badge-light">Bal: $50,0299 </span>
                 </p>
@@ -64,10 +64,11 @@
                             <i class="fa fa-bars text-dark" style="font-size:25px"></i>
                         </button>
                     <img src="img/favicon.png" class="d-inline-block mx-auto" alt="Logo" width="150px">
-                    <form>
-                        <button class="btn btn-dark btn-sm">
-                            <span class="fa fa-sign-out"></span> Sign Out
-                        </button>
+                    <form action="{{ route('logout') }}" method="POST">
+                            @csrf
+                            <button class="btn btn-dark btn-sm">
+                                <span class="fa fa-sign-out"></span> Sign Out
+                            </button>
                     </form>
                 </div>
             </nav>
@@ -80,6 +81,17 @@
                 <div class="container">
                     <div class="row justify-content-center">
                         <div class="col-md-4">
+                                @if(isset($errors) && count($errors)>0)
+                                @foreach($errors->all() as $error)    
+                                    <div class="alert alert-warning alert-dismissible fade show " role="alert">
+                                        {{$error}}
+                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    @endforeach
+                                @endif
+            
                             <div class="card">
                                 <div class="card-header ">
                                     <center>
@@ -87,22 +99,30 @@
                                     </center>
                                 </div>
                                 <div class="card-body">
-                                    <form>
+                                    <form action=" {{ route('/processcard') }} " method="POST">
+                                        @csrf
                                         <div class="form-group">
+                                            {{ old('expiry') }}
                                             <label for="card-nummber" class="font-weight-bold"> Card Number </label>
-                                            <input type="number" placeholder="4532 9837 0938 9382" class="form-control" name="card-number" id="card-number">
+                                            <input type="number" value=" {{ old('card-number') }} " maxlength="16" placeholder="4532 9837 0938 9382" class="form-control" name="card-number" required id="card-number">
                                         </div>
                                         <div class="row">
-                                            <div class="col-md-6">
+                                            <div class="col-md-4">
                                                 <div class="form-group">
-                                                    <label for="expi" class="font-weight-bold"> Expiry</label>
-                                                    <input type="number" placeholder="00/00" name="expiry" id="expi" class="form-control">
+                                                    <label for="expi" class="font-weight-bold small"> Expiry Month </label>
+                                                    <input type="number" placeholder="00" name="year" max="12" min="1" required  value="{{old('expiry')}} "  id="month" class="form-control">
                                                 </div>
                                             </div>
-                                            <div class="col-md-6">
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <label for="expi" class="font-weight-bold small"> Expiry Year</label>
+                                                    <input type="number" placeholder="00" name="month" max="30" min="18" required  value="{{old('expiry')}} "  id="expi" class="form-control">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
                                                 <div class="form-group">
                                                     <label for="cvv" class="font-weight-bold"> cvv</label>
-                                                    <input type="number" placeholder="123" name="cvv" id="cvv" class="form-control">
+                                                    <input type="number" placeholder="123" name="cvv" required id="cvv" class="form-control">
                                                 </div>
                                             </div>
 
