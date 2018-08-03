@@ -145,49 +145,7 @@
                                 </span>
                             @endif
                                                     </div>
-                                                    <!-- form-group end.// -->
-
-                                                    {{-- <div class="form-row">
-                                                        <div class="form-group text-left font-weight-bold col-md-6">
-                                                            <label>Account Number</label>
-                                                            <input type="number" required class="form-control {{ $errors->has('accnumber') ? ' is-invalid' : '' }}" name="accnumber"
-                                                            value=" {{ old('accnumber') }} " placeholder="Enter your bank account number">
-                                                        </div>
-                                                        <!-- form-group end.// -->
-                                                        <div class="form-group text-left font-weight-bold col-md-6">
-                                                            <label>Bank</label>
-                                                            <select id="bankSelect" name="bank" class="form-control">
-                                                                    <option selected disabled>Select Bank </option>
-                                                                    <option value="access-bank">Access Bank</option>
-                                                                    <option value="citibank-nigeria">Citibank Nigeria</option>
-                                                                    <option value="diamond-bank">Diamond Bank</option>
-                                                                    <option value="ecobank-nigeria">Ecobank Nigeria</option>
-                                                                    <option value="enterprise-bank">Enterprise Bank</option>
-                                                                    <option value="fidelity-bank">Fidelity Bank</option>
-                                                                    <option value="first-bank-of-nigeria">First Bank of Nigeria</option>
-                                                                    <option value="first-city-monument-bank">First City Monument Bank</option>
-                                                                    <option value="guaranty-trust-bank">Guaranty Trust Bank</option>
-                                                                    <option value="heritage-bank">Heritage Bank</option>
-                                                                    <option value="keystone-bank">Keystone Bank</option>
-                                                                    <option value="mainstreet-bank">MainStreet Bank</option>
-                                                                    <option value="skye-bank">Skye Bank</option>
-                                                                    <option value="stanbic-ibtc-bank">Stanbic IBTC Bank</option>
-                                                                    <option value="standard-chartered-bank">Standard Chartered Bank</option>
-                                                                    <option value="sterling-bank">Sterling Bank</option>
-                                                                    <option value="union-bank-of-nigeria">Union Bank of Nigeria</option>
-                                                                    <option value="united-bank-for-africa">United Bank For Africa</option>
-                                                                    <option value="unity-bank">Unity Bank</option>
-                                                                    <option value="wema-bank">Wema Bank</option>
-                                                                    <option value="zenith-bank">Zenith Bank</option>
-                                                            </select>
-                                                            
-                                @if ($errors->has('bank'))
-                                <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $errors->first('bank') }}</strong>
-                                </span>
-                            @endif
-                                                        </div> --}}
-                                                        <!-- form-group end.// -->
+                                                    
                                                     </div>
                                                     <!-- form-row.// -->
                                                     <div class="form-group text-left font-weight-bold">

@@ -10,32 +10,60 @@ use GuzzleHttp\Psr7;
 use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\Exception\ConnectException;
 use App\Card;
+use App\History;
 
 
 class LogicController extends Controller
 {
     public function addSavings(Request $request){
         $this->validate($request,[
-            'info' => 'requred',
+            'info' => 'required',
             'amount'=> 'required|integer',
             'interval' => 'required'
 
         ]);
 
-        $savings = new Saving;
+        $savings = new \App\Saving;
 
-        $savings->user = Auth::get()->email;
-        $saving->info = $request->input('info');
-        $saving->amount = $request->input('amount');
-        $saving->interval = $request->input('interval');
-        $saving->duration = $request->input('duration');
-        $saving->saved = $request->input('saved');
-        $saving->status = 'active';
+        $savings->user = Auth::user()->email;
+        $savings->info = $request->input('info');
+        $savings->amount = $request->input('amount');
+        $savings->interval = $request->input('interval');
+        $savings->duration = $request->input('duration');
+        $savings->saved = $request->input('amount');
+        $savings->status = 'active';
 
         if($savings->save()){
-            return rediecr()->route('/savig');
+            return redirect()->route('/savings')->with('message', 'Savings created successfully your initial charge has been initialised');
         }else{
-            return response()->json('unable to connect', 402);
+            return redirect()->route('/savings', 'I`m unable to can at the moment');
+        }
+    }
+
+    public function addSpendings(Request $request){
+        $this->validate($request,[
+            'info' => 'required',
+            'amount'=> 'required|integer',
+            'interval' => 'required',
+            'accnumber' => 'required',
+            'bank' => 'required',
+
+        ]);
+
+        $spendings = new \App\Spending;
+
+        $spendings->user = Auth::user()->email;
+        $spendings->info = $request->input('info');
+        $spendings->amount = $request->input('amount');
+        $spendings->interval = $request->input('interval');
+        $spendings->accnumber = $request->input('accnumber');
+        $spendings->bank = $request->input('bank');
+        $spendings->status = 'active';
+
+        if($spendings->save()){
+            return redirect()->route('/spendings')->with('message', 'Spendings created successfully and your initial transfer has been initialised');
+        }else{
+            return redirect()->route('/spendings', 'I`m unable to can at the moment');
         }
     }
 
@@ -132,27 +160,27 @@ class LogicController extends Controller
                     return redirect()->route('/addcard')->with('message', $errorMessage);
                 }else{
                     $success = json_decode($resbody);
-                    if($success->status == 'sucess'){
+                    if($success->status == 'success'){
                         $history = new History;
                         $history->user = Auth::user()->email;
                         $history->type = 'Debit';
-                        $history->amount= '#50';
+                        $history->amount= 50;
                         $history->status = 'Successful';
 
                         $history->save();
-                    }
-                    // print_r($success);
-                    $card_token = $success->data->tx->chargeToken->embed_token;
-                    // echo $card_token;
-
-                    $cardDetail = new Card;
-                    $cardDetail->user = Auth::user()->email;
-                    $cardDetail->token = $card_token;
-
-                    if($cardDetail->save()){
-                        return redirect()->route('/addcard')->with('message', 'Card Added Successfully, you`ve been charged #50');
-                    }else{
-                        return redirect()->route('/addcard')->with('message', 'Error saving card detail,try again');
+                        // print_r($success);
+                        $card_token = $success->data->tx->chargeToken->embed_token;
+                        // echo $card_token;
+    
+                        $cardDetail = new Card;
+                        $cardDetail->user = Auth::user()->email;
+                        $cardDetail->token = $card_token;
+    
+                        if($cardDetail->save()){
+                            return redirect()->route('/addcard')->with('message', 'Card Added Successfully, you`ve been charged #50');
+                        }else{
+                            return redirect()->route('/addcard')->with('message', 'Error saving card detail,try again');
+                        }
                     }
                 }
             }

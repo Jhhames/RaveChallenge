@@ -96,49 +96,75 @@
                 </p>
                 <section>
                     <div class="container">
-                        <div class="row">
-                            <div class="col-md-4 mb-4">
-                                <!-- Card -->
-                                <div class="card ovf-hidden">
-
-                                    <!-- Card image -->
-                                    <div class="view overlay">
-                                        <a>
-                                            <div class="mask waves-effect waves-light rgba-white-slight"></div>
-                                        </a>
+                            <div class="row">
+                                    <div class="col-md-12">
+                                        @if(session('message'))
+                                            <div class="alert alert-info"> {{ session('message') }}</div>
+                                        @endif
+                                        @if(isset($errors) && count($errors)>0)
+                                        @foreach($errors->all() as $error)    
+                                            <div class="alert alert-warning alert-dismissible fade show " role="alert">
+                                                {{$error}}
+                                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            @endforeach
+                                        @endif
                                     </div>
-
-                                    <!-- Card content -->
-                                    <div class="card-body">
-
-                                        <!-- Title -->
-                                        <h4 class="card-title font-weight-bold">
-                                            <img src="img/expense.png " class="img-fluid" width="20px" alt="expense"> Child pocket mmoney </h4>
-                                        <hr>
-                                        <!-- Text -->
-                                        <p class="card-text">
-                                            <p> <b>Amount</b> <span class="text-success"> $5,000 </span> | every <span class="text-primary"> 7days </span> </p>
-                                            <p> <span class="font-weight-bold"> Status :</span> <span class="text-success">Active</span> </p>
-                                            <p> <span class="font-weight-bold"> Account Number :</span> <span> 1109283777 </span> </p>
-
-
-                                        </p>
-                                        <hr>
-                                        <button class="btn btn-danger float-left btn-sm"> Pause </button>
-                                        <button class="btn btn-success float-right btn-sm"> Continue </button>
-
-                                        <a class="link-text">
-                                            <!-- <h5>Read more <i class="fa fa-angle-double-right ml-2"></i></h5> -->
-                                        </a>
-
-                                    </div>
-
-
 
                                 </div>
-                                <!-- Card -->
-                            </div>
-
+                        <div class="row">
+                            
+                            @if($data !== null )
+                                @foreach( $data as $spendings)
+                                <div class="col-md-4 mb-4">
+                                        <!-- Card -->
+                                        <div class="card ovf-hidden">
+        
+                                            <!-- Card image -->
+                                            <div class="view overlay">
+                                                <a>
+                                                    <div class="mask waves-effect waves-light rgba-white-slight"></div>
+                                                </a>
+                                            </div>
+        
+                                            <!-- Card content -->
+                                            <div class="card-body">
+        
+                                                <!-- Title -->
+                                                <h4 class="card-title font-weight-bold">
+                                                    <img src="img/expense.png " class="img-fluid" width="20px" alt="expense"> {{ $spendings->info }} </h4>
+                                                <hr>
+                                                <!-- Text -->
+                                                <p class="card-text">
+                                                    <p> <b>Amount</b> <span class="text-success"> # {{ $spendings->amount }} </span> | every <span class="text-primary"> {{ $spendings->interval }} </span> </p>
+                                                    <p> <span class="font-weight-bold"> Status :</span> <span class="text-info">{{$spendings->status }}</span> </p>
+                                                    <p> <span class="font-weight-bold"> Account Number :</span> <span> {{$spendings->accnumber}} </span> </p>
+        
+        
+                                                </p>
+                                                <hr>
+                                                <button class="btn btn-danger float-left btn-sm"> Pause </button>
+                                                <button class="btn btn-success float-right btn-sm"> Continue </button>
+        
+                                                <a class="link-text">
+                                                    <!-- <h5>Read more <i class="fa fa-angle-double-right ml-2"></i></h5> -->
+                                                </a>
+        
+                                            </div>
+        
+        
+        
+                                        </div>
+                                        <!-- Card -->
+                                    </div>
+        
+                                @endforeach
+                            @else
+                                    <div class="lead"> No Expenses yet</div>
+                            @endif
+                            
 
                         </div>
                     </div>
@@ -167,33 +193,61 @@
                         </button>
                     </div>
                     <div class="modal-body">
-                        <form>
+                    <form action="{{ route('/processSpendings') }}" method="POST">
+                        @csrf
                             <div class="row">
                                 <div class="form-group col-md-12">
                                     <label for="benName" class="font-weight-bold">Expense Title</label>
-                                    <input type="text" id="benName" name="name" class="form-control" placeholder="What are you spending this money on...">
+                                    <input type="text" id="benName" name="info" class="form-control" placeholder="What are you spending this money on...">
                                 </div>
 
                                 <div class="form-group col-md-6">
                                     <label for="benAcc" class="font-weight-bold">Enter Amount</label>
-                                    <input type="text" id="benAcc" name="amount" class="form-control" placeholder="Enter Amount">
+                                    <input type="number" min="50" id="benAcc" name="amount" class="form-control" placeholder="Enter Amount">
                                 </div>
 
                                 <div class="form-group col-md-6">
                                     <label class="font-weight-bold" id="benInterval">Select Interval</label>
                                     <select id="benInterval" name="interval" class="form-control">
-                                            <option selected="" value="7">Weekly </option>
-                                            <option value="14">2 Weeks </option>
-                                            <option value="21">3 Weeks </option>
-                                            <option value="30">Monthly </option>
-                                            <option value="365">Yearly </option>
+                                                    <option selected="" value="weekly">Weekly </option>
+                                                    <option value="every 14 days">2 Weeks </option>
+                                                    <option value="every 21 days">3 Weeks </option>
+                                                    <option value="monthly">Monthly </option>
+                                                    <option value="yearly">Yearly </option>
                                     </select>
                                 </div>
 
                                 <div class="form-group col-md-12">
                                     <label for="benAccount" class="font-weight-bold">Account Number</label>
-                                    <input type="number" id="benAccount" name="account" class="form-control" placeholder="Enter Recipient's Account Number">
+                                    <input type="number" id="benAccount" name="accnumber" class="form-control" placeholder="Enter Recipient's Account Number">
                                 </div>
+
+                                <div class="form-group text-left font-weight-bold col-md-12">
+                                        <label>Bank</label>
+                                        <select id="bankSelect" name="bank" class="form-control">
+                                                <option selected disabled>Select Bank </option>
+                                                <option value="access-bank">Access Bank</option>
+                                                <option value="citibank-nigeria">Citibank Nigeria</option>
+                                                <option value="diamond-bank">Diamond Bank</option>
+                                                <option value="ecobank-nigeria">Ecobank Nigeria</option>
+                                                <option value="enterprise-bank">Enterprise Bank</option>
+                                                <option value="fidelity-bank">Fidelity Bank</option>
+                                                <option value="first-bank-of-nigeria">First Bank of Nigeria</option>
+                                                <option value="first-city-monument-bank">First City Monument Bank</option>
+                                                <option value="guaranty-trust-bank">Guaranty Trust Bank</option>
+                                                <option value="heritage-bank">Heritage Bank</option>
+                                                <option value="keystone-bank">Keystone Bank</option>
+                                                <option value="mainstreet-bank">MainStreet Bank</option>
+                                                <option value="skye-bank">Skye Bank</option>
+                                                <option value="stanbic-ibtc-bank">Stanbic IBTC Bank</option>
+                                                <option value="standard-chartered-bank">Standard Chartered Bank</option>
+                                                <option value="sterling-bank">Sterling Bank</option>
+                                                <option value="union-bank-of-nigeria">Union Bank of Nigeria</option>
+                                                <option value="united-bank-for-africa">United Bank For Africa</option>
+                                                <option value="unity-bank">Unity Bank</option>
+                                                <option value="wema-bank">Wema Bank</option>
+                                                <option value="zenith-bank">Zenith Bank</option>
+                                        </select>
 
 
                             </div>

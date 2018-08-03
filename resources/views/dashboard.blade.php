@@ -18,6 +18,12 @@
 </head>
 
 <body>
+    <?php
+    if(isset($data) && count($data)>0)
+        foreach ($data as $key) {
+            // $Balance = $data->
+        }
+    ?>
     <!-- Page Content -->
     <div class="wrapper">
         <!-- Sidebar -->
@@ -29,9 +35,9 @@
             <ul class="list-unstyled components">
                 <p>
                     <span class="d-inline-block mr-1 fa fa-user"></span>
-                    <span class="comic">Jhhames </span>
+                    <span class="comic">{{ Auth::user()->name }} </span>
 
-                    <span class="badge badge-light">Bal: $50,0299 </span>
+                    <span class="badge badge-light">Bal: #{{ $balance or '0' }} </span>
                 </p>
                 <hr class="separator">
                 <li class="active">
@@ -99,34 +105,35 @@
                                 <div class="col-sm-6 bg-light pb-2">
                                     <p class="lead font-weight-bold">Hacktive Savings <img src="img/wallet_1.png " class="img-fluid" width="20px" alt="expense"></p>
                                     <hr>
-                                    <p>
-                                        <span class="fa fa-briefcase"></span> Samsung s5 </span>
-                                        <span class="badge badge-secondary float-right">$5000</span>
-                                    </p>
-                                    <p>
-                                        <span class="fa fa-briefcase"></span> Samsung s5 </span>
-                                        <span class="badge badge-secondary float-right">$5000</span>
-                                    </p>
-                                    <p>
-                                        <span class="fa fa-briefcase"></span> Samsung s5 </span>
-                                        <span class="badge badge-secondary float-right">$5000</span>
-                                    </p>
+                                    @if($savings !== null && count($savings)>0 )
+                                        @foreach($savings as $saving)
+                                            <p>
+                                                <span class="fa fa-briefcase"></span> {{ $saving->info }} </span>
+                                                <span class="badge badge-secondary float-right"># {{ $saving->amount }} </span>
+                                            </p>
+                                        @endforeach
+                                    @else
+                                        <p class="lead">
+                                            No Savings yet
+                                        </p>
+                                    @endif
+                                    
                                 </div>
                                 <div class="col-sm-6 bg-white pb-2">
                                     <p class="lead font-weight-bold">Hacktive Spendings <img src="img/money.png " class="img-fluid" width="20px" alt="expense"> </p>
                                     <hr>
-                                    <p>
-                                        <span class="fa fa-money"></span> Samsung s5 </span>
-                                        <span class="badge badge-secondary float-right">$5000</span>
-                                    </p>
-                                    <p>
-                                        <span class="fa fa-money"></span> Samsung s5 </span>
-                                        <span class="badge badge-secondary float-right">$5000</span>
-                                    </p>
-                                    <p>
-                                        <span class="fa fa-money"></span> Samsung s5 </span>
-                                        <span class="badge badge-secondary float-right">$5000</span>
-                                    </p>
+                                    @if($spendings !== null && count($spendings)>0 )
+                                        @foreach($spendings as $saving)
+                                            <p>
+                                                <span class="fa fa-briefcase"></span> {{ $saving->info }} </span>
+                                                <span class="badge badge-secondary float-right"># {{ $saving->amount }} </span>
+                                            </p>
+                                        @endforeach
+                                    @else
+                                        <p class="lead">
+                                            No Expenses yet
+                                        </p>
+                                    @endif
                                 </div>
                             </div>
                         </div>
@@ -135,7 +142,8 @@
                     <div class="row justify-content-center">
                         <div class="col-md-3 bg-success text-center mx-2 shadow shadow-lg">
                             <span class="font-weight-bold" style="font-size: 3.4em">
-                                $50,000
+                                $50,000 
+                               
                             </span>
                             <p class="comic text-light">Current Balance </p>
                         </div>

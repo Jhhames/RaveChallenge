@@ -14,12 +14,19 @@
 // 
 Route::get('/', 'WebController@index')->name('/');
 Auth::routes();
-Route::get('/dashboard', 'WebController@dashboard');
+Route::get('/dashboard', 'WebController@dashboard')->name('/dashboard');
 Route::get('/addcard', 'WebController@addcard')->name('/addcard');
 Route::post('/processcard', 'LogicController@addcard')->name('/processcard');
-Route::get('/savings', 'WebController@savings');
-Route::get('/spendings', 'WebController@spendings');
-Route::get('/history', 'WebController@history');
-Route::get('/details', 'WebController@details');
-Route::post('/api/savings', 'LogicController@addSavings');
+
+Route::post('/processSavings', 'LogicController@addSavings')->name('/processSavings');
+Route::get('/savings', 'WebController@savings')->name('/savings');
+
+Route::post('/processSpendings', 'LogicController@addSpendings')->name('/processSpendings');
+Route::get('/spendings', 'WebController@spendings')->name('/spendings');
+
+Route::get('/history', 'WebController@history')->name('/history');
+
+Route::post('/adddetails', 'LogicController@details')->name('/adddetails');
+Route::get('/details', 'WebController@details')->name('/details');
+// Route::post('/api/savings', 'LogicController@addSavings')->name('/');
 // Route::get('/home', 'HomeController@index')->name('home');

@@ -22,7 +22,7 @@ class CreateSpendingsTable extends Migration
             // $table->mediumText('duration');
             $table->integer('accnumber');
             $table->mediumText('bank');
-            $table->integer('saved');
+            // $table->integer('saved');
             $table->mediumText('status');
             $table->timestamps();
         });

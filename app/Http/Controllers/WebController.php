@@ -12,6 +12,7 @@ class WebController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
+        
     }
 
     public function index(){
@@ -23,15 +24,55 @@ class WebController extends Controller
     }
 
     public function dashboard(){
-        return view('dashboard');
+        if(Auth::check()){
+            $email = Auth::user()->email;
+            $spendings = DB::table('spendings')->where('user', $email)->get(); 
+            $savings = DB::table('savings')->where('user', $email)->get(); 
+            return view('dashboard')->with([
+                'spendings' => $spendings,
+                'savings' => $savings
+            ]);
+        }else{
+            return redirect()->route('/login');
+        }
     }
 
     public function savings(){
-        return view('savings');
+        if(Auth::check()){
+            $email = Auth::user()->email;
+            if(DB::table('savings')->where('user',$email)->exists()){
+                $data = DB::table('savings')->where('user', $email)->get();
+               
+                return view('savings')->with([
+                    'data'=> $data,                    
+                ]);
+            }else{
+                return view('savings')->with([
+                    'data' => null
+                ]);
+            }
+        }else{
+            return redirect()->route('login');
+        }
     }
 
     public function spendings(){
-        return view('expenses');
+        if(Auth::check()){
+            $email = Auth::user()->email;
+            if(DB::table('spendings')->where('user',$email)->exists()){
+                $data = DB::table('spendings')->where('user', $email)->get();
+               
+                return view('expenses')->with([
+                    'data'=> $data,                    
+                ]);
+            }else{
+                return view('expenses')->with([
+                    'data' => null
+                ]);
+            }
+        }else{
+            return redirect()->route('login');
+        }
     }
 
     public function addcard(Request $request){
@@ -39,7 +80,7 @@ class WebController extends Controller
             if($this->checkCardAdded()){
                 return view('addcard')->with('check', 'true');
             }else{
-                return view('addcard');
+                return view('addcard')->with('check', null);
             }
         }else{
             return redirect()->route('login');
@@ -74,5 +115,6 @@ class WebController extends Controller
         }
     }
 
+   
 
 }

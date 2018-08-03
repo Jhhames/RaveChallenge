@@ -86,7 +86,85 @@
                 <section>
                     <div class="container">
                         <div class="row">
-                            <div class="col-md-4 mb-4">
+                            <div class="col-md-12">
+                                @if(session('message'))
+                                    <div class="alert alert-info"> {{ session('message') }}</div>
+                                @endif
+
+                                @if(isset($errors) && count($errors)>0)
+                                @foreach($errors->all() as $error)    
+                                    <div class="alert alert-warning alert-dismissible fade show " role="alert">
+                                        {{$error}}
+                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    @endforeach
+                                @endif
+                            </div>
+                        </div>
+                        <div class="row">
+                            
+                            @if($data !== null )
+                                @foreach( $data as $savings)
+                                <div class="col-md-4 mb-4">
+                                        <!-- Card -->
+                                        <div class="card ovf-hidden">
+        
+                                            <!-- Card image -->
+                                            <div class="view overlay">
+                                                <a>
+                                                    <div class="mask waves-effect waves-light rgba-white-slight"></div>
+                                                </a>
+                                            </div>
+        
+                                            <!-- Card content -->
+                                            <div class="card-body">
+        
+                                                <!-- Title -->
+                                                <h4 class="card-title font-weight-bold">
+                                                    <img src="img/wallet_1.png " class="img-fluid" width="20px" alt="expense"> {{ $savings->info }} </h4>
+                                                <hr>
+                                                <!-- Text -->
+                                                <p class="card-text">
+                                                    <?php
+                                                        $saved = $savings->saved;
+                                                        $target = $savings->amount*$savings->duration;
+                                                        $percent = ($saved/$target) * 100;
+                                                    ?>
+                                                    <p> <b>Target</b> <span class="text-success"> #{{ $savings->amount*$savings->duration }} </span> </p>
+                                                    <p> <b>Saved</b> <span class="text-success"> #{{ $savings->saved }} </span> </p>
+                                                    <p> <b>Saving</b> <span class="text-success"> #{{ $savings->amount }} </span> | {{ $savings->interval}} </p>
+                                                    <p> <span class="font-weight-bold"> Status :</span> <span class="text-info"> {{ $savings->status }} </span> </p>
+                                                    <p class="mt-4"> <span class="font-weight-normal"> <div class="progress">
+                                                        <div class="progress-bar" role="progressbar" style="width: <?=$percent ?>%" aria-valuemin="0" aria-valuemax="100">
+                                                           <i> <?=$percent ?>% </i>
+                                                        </div>
+                                                        </div>
+                                                    </p>
+        
+        
+                                                </p>
+                                                <hr>
+                                                <button class="btn btn-danger float-left btn-sm"> Pause </button>
+                                                <button class="btn btn-success float-right btn-sm"> Continue </button>
+        
+                                                <a class="link-text">
+                                                    <!-- <h5>Read more <i class="fa fa-angle-double-right ml-2"></i></h5> -->
+                                                </a>
+        
+                                            </div>
+        
+        
+        
+                                        </div>
+                                        <!-- Card -->
+                                    </div>
+                                @endforeach
+                            @else
+                                    <div class="lead"> No Savings yet</div>
+                            @endif
+                            {{-- <div class="col-md-4 mb-4">
                                 <!-- Card -->
                                 <div class="card ovf-hidden">
 
@@ -133,7 +211,7 @@
 
                                 </div>
                                 <!-- Card -->
-                            </div>
+                            </div> --}}
 
 
                         </div>
@@ -163,30 +241,31 @@
                         </button>
                             </div>
                             <div class="modal-body">
-                            <form action="{{ route('/api/savings') }}" method="POST">
+                            <form action="{{ route('/processSavings') }}" method="POST">
+                                @csrf
                                     <div class="row">
                                         <div class="form-group col-md-12">
-                                            <label for="benName" class="font-weight-bold">Savings Title</label>
-                                            <input type="text" id="benName" name="name" class="form-control" placeholder="What are you saving for...">
+                                            <label for="benName" class="font-weight-bold">Savings Info</label>
+                                            <input type="text" id="benName" name="info" class="form-control" placeholder="What are you saving for...">
                                         </div>
 
                                         <div class="form-group col-md-12">
-                                            <label for="benAcc" class="font-weight-bold">Enter Target</label>
-                                            <input type="number" id="benAcc" name="amount" class="form-control" placeholder="Enter Savings Goal">
+                                            <label for="benAcc" class="font-weight-bold">Enter Amount</label>
+                                            <input type="number" id="benAcc" name="amount" class="form-control" placeholder="Enter Amount you like to save">
                                         </div>
                                         <div class="form-group col-md-6">
-                                            <label for="benName" class="font-weight-bold">Enter Deductions </label>
-                                            <input type="number" id="benName" name="name" class="form-control" placeholder="Savings per Interval">
+                                            <label for="benName" class="font-weight-bold">Enter Duration </label>
+                                            <input type="number" id="benName" name="duration" class="form-control" placeholder="Savings per Interval">
                                         </div>
 
                                         <div class="form-group col-md-6">
                                             <label class="font-weight-bold" id="benInterval">Select Interval</label>
                                             <select id="benInterval" name="interval" class="form-control">
-                                            <option selected="" value="7">Weekly </option>
-                                            <option value="14">2 Weeks </option>
-                                            <option value="21">3 Weeks </option>
-                                            <option value="30">Monthly </option>
-                                            <option value="365">Yearly </option>
+                                            <option selected="" value="weekly">Weekly </option>
+                                            <option value="every 14 days">2 Weeks </option>
+                                            <option value="every 21 days">3 Weeks </option>
+                                            <option value="monthly">Monthly </option>
+                                            <option value="yearly">Yearly </option>
                                     </select>
                                         </div>
 
