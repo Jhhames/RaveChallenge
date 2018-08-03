@@ -9,9 +9,17 @@ use Auth;
 use DB;
 class WebController extends Controller
 {
-    public function __construct()
+    public function __construct(Request  $request)
     {
         $this->middleware('auth');
+        
+        if(Auth::check()){
+            $email = Auth::user()->email;
+            if(DB::table('details')->where('user',$email)->exists()){
+                $details = DB::table('details')->where('user', $email)->get();
+                $request->session()->put('details', (array)$details);
+            }
+        }
         
     }
 
@@ -23,17 +31,24 @@ class WebController extends Controller
         }
     }
 
-    public function dashboard(){
+    public function dashboard(Request $request){
         if(Auth::check()){
             $email = Auth::user()->email;
+            
+            if(DB::table('details')->where('user',$email)->exists()){
+                $details = DB::table('details')->where('user', $email)->first();
+            }
+
             $spendings = DB::table('spendings')->where('user', $email)->get(); 
             $savings = DB::table('savings')->where('user', $email)->get(); 
             return view('dashboard')->with([
+                'additions' => $details ,
                 'spendings' => $spendings,
                 'savings' => $savings
             ]);
+
         }else{
-            return redirect()->route('/login');
+            return redirect()->route('/');
         }
     }
 

@@ -37,7 +37,7 @@
                     <span class="d-inline-block mr-1 fa fa-user"></span>
                     <span class="comic">{{ Auth::user()->name }} </span>
 
-                    <span class="badge badge-light">Bal: #{{ $balance or '0' }} </span>
+                    <span class="badge badge-light">Bal: #{{ $additions->balance or 'Enter further Account details'  }} </span>
                 </p>
                 <hr class="separator">
                 <li class="active">
@@ -103,7 +103,7 @@
                         <div class="col-md-10 shadow p-0 shadow-lg">
                             <div class="row">
                                 <div class="col-sm-6 bg-light pb-2">
-                                    <p class="lead font-weight-bold">Hacktive Savings <img src="img/wallet_1.png " class="img-fluid" width="20px" alt="expense"></p>
+                                    <p class="lead font-weight-bold">Active Savings <img src="img/wallet_1.png " class="img-fluid" width="20px" alt="expense"></p>
                                     <hr>
                                     @if($savings !== null && count($savings)>0 )
                                         @foreach($savings as $saving)
@@ -120,7 +120,7 @@
                                     
                                 </div>
                                 <div class="col-sm-6 bg-white pb-2">
-                                    <p class="lead font-weight-bold">Hacktive Spendings <img src="img/money.png " class="img-fluid" width="20px" alt="expense"> </p>
+                                    <p class="lead font-weight-bold">Active Spendings <img src="img/money.png " class="img-fluid" width="20px" alt="expense"> </p>
                                     <hr>
                                     @if($spendings !== null && count($spendings)>0 )
                                         @foreach($spendings as $saving)
@@ -142,20 +142,20 @@
                     <div class="row justify-content-center">
                         <div class="col-md-3 bg-success text-center mx-2 shadow shadow-lg">
                             <span class="font-weight-bold" style="font-size: 3.4em">
-                                $50,000 
+                                #{{ $additions->balance or 'Enter further Account details'}}
                                
                             </span>
                             <p class="comic text-light">Current Balance </p>
                         </div>
                         <div class="col-md-3 mx-2 text-center shadow shadow-lg" style="background: #6c757d">
                             <span class="display-4 font-weight-bold">
-                                $5,000
+                                #{{  $additions->savings or 'Enter further Account details'}}
                             </span>
                             <p class="comic text-light">Total Savings </p>
                         </div>
                         <div class="col-md-3 mx-2 text-center bg-danger shadow shadow-lg">
                             <span class="display-4 font-weight-bold">
-                                $40,000
+                                #{{  $additions->spendings or 'Enter further Account details'}}
                             </span>
                             <p class="comic text-light">Total Spendings </p>
 
