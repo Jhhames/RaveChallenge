@@ -15,6 +15,7 @@ class CreateHistoriesTable extends Migration
     {
         Schema::create('histories', function (Blueprint $table) {
             $table->increments('id');
+            $table->mediumText('user');
             $table->mediumText('type');
             $table->integer('amount');
             $table->mediumText('status');

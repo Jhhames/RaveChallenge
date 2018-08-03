@@ -91,51 +91,60 @@
                                     </div>
                                     @endforeach
                                 @endif
+                                @if (session('message'))
+                                    <div class="alert alert-info">
+                                        {{ session('message') }}
+                                    </div>
+                                @endif
             
-                            <div class="card">
-                                <div class="card-header ">
-                                    <center>
-                                        <img class="img-responsive" src="http://i76.imgup.net/accepted_c22e0.png">
-                                    </center>
-                                </div>
-                                <div class="card-body">
-                                    <form action=" {{ route('/processcard') }} " method="POST">
-                                        @csrf
-                                        <div class="form-group">
-                                            {{ old('expiry') }}
-                                            <label for="card-nummber" class="font-weight-bold"> Card Number </label>
-                                            <input type="number" value=" {{ old('card-number') }} " maxlength="16" placeholder="4532 9837 0938 9382" class="form-control" name="card-number" required id="card-number">
+                                @if($check !== null )
+                                    <div class="lead">Card Added Already, Continue with Transactions and get charged automatically</div>
+                                @else
+                                    <div class="card">
+                                        <div class="card-header ">
+                                            <center>
+                                                <img class="img-responsive" src="http://i76.imgup.net/accepted_c22e0.png">
+                                            </center>
                                         </div>
-                                        <div class="row">
-                                            <div class="col-md-4">
+                                        <div class="card-body">
+                                            <form action=" {{ route('/processcard') }} " method="POST">
+                                                @csrf
                                                 <div class="form-group">
-                                                    <label for="expi" class="font-weight-bold small"> Expiry Month </label>
-                                                    <input type="number" placeholder="00" name="year" max="12" min="1" required  value="{{old('expiry')}} "  id="month" class="form-control">
+                                                    {{ old('expiry') }}
+                                                    <label for="card-nummber" class="font-weight-bold"> Card Number </label>
+                                                    <input type="number" value=" {{ old('card-number') }} " maxlength="16" placeholder="4532 9837 0938 9382" class="form-control" name="card-number" required id="card-number">
                                                 </div>
-                                            </div>
-                                            <div class="col-md-4">
-                                                <div class="form-group">
-                                                    <label for="expi" class="font-weight-bold small"> Expiry Year</label>
-                                                    <input type="number" placeholder="00" name="month" max="30" min="18" required  value="{{old('expiry')}} "  id="expi" class="form-control">
+                                                <div class="row">
+                                                    <div class="col-md-4">
+                                                        <div class="form-group">
+                                                            <label for="expi" class="font-weight-bold small"> Expiry Month </label>
+                                                            <input type="number" placeholder="00" name="year" max="12" min="1" required  value="{{old('expiry')}} "  id="month" class="form-control">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <div class="form-group">
+                                                            <label for="expi" class="font-weight-bold small"> Expiry Year</label>
+                                                            <input type="number" placeholder="00" name="month" max="30" min="18" required  value="{{old('expiry')}} "  id="expi" class="form-control">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <div class="form-group">
+                                                            <label for="cvv" class="font-weight-bold"> cvv</label>
+                                                            <input type="number" placeholder="123" name="cvv" required id="cvv" class="form-control">
+                                                        </div>
+                                                    </div>
+        
                                                 </div>
-                                            </div>
-                                            <div class="col-md-4">
-                                                <div class="form-group">
-                                                    <label for="cvv" class="font-weight-bold"> cvv</label>
-                                                    <input type="number" placeholder="123" name="cvv" required id="cvv" class="form-control">
-                                                </div>
-                                            </div>
-
+        
+                                                <button class="btn btn-block btn-sm btn-primary">
+                                                    Save Card  
+                                                </button>
+        
+        
+                                            </form>
                                         </div>
-
-                                        <button class="btn btn-block btn-sm btn-primary">
-                                            Save Card  
-                                        </button>
-
-
-                                    </form>
-                                </div>
-                            </div>
+                                    </div>
+                                @endif
                         </div>
                     </div>
                 </div>

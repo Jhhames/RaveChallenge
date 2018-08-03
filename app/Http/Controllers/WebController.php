@@ -6,6 +6,7 @@ use Guzzle\GuzzleHttp;
 use Illuminate\Http\Request;
 use User;
 use Auth;
+use DB;
 class WebController extends Controller
 {
     public function __construct()
@@ -35,18 +36,42 @@ class WebController extends Controller
 
     public function addcard(Request $request){
         if(Auth::check()){
-            return view('addcard');
+            if($this->checkCardAdded()){
+                return view('addcard')->with('check', 'true');
+            }else{
+                return view('addcard');
+            }
         }else{
             return redirect()->route('login');
         }
     }
 
     public function history(){
-        return view('history');
+        if(Auth::check()){
+            $email = Auth::user()->email;
+                if(DB::table('histories')->where('user',$email)->exists()){
+                    $data = DB::table('histories')->where('user',$email)->get();
+                }else{
+                    $data = null;
+                }
+                    return view('history')->with('data',$data);
+
+        }else{
+            return redirect()->route();
+        }
     }
 
     public function details(){
         return view('details');
+    }
+
+    protected function checkCardAdded(){
+        $email = Auth::user()->email;
+        if(DB::table('cards')->where('user',$email)->exists()){
+            return true;
+        }else{
+            return false;
+        }
     }
 
 

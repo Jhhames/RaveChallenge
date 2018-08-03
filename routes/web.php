@@ -15,7 +15,7 @@
 Route::get('/', 'WebController@index')->name('/');
 Auth::routes();
 Route::get('/dashboard', 'WebController@dashboard');
-Route::get('/addcard', 'WebController@addcard');
+Route::get('/addcard', 'WebController@addcard')->name('/addcard');
 Route::post('/processcard', 'LogicController@addcard')->name('/processcard');
 Route::get('/savings', 'WebController@savings');
 Route::get('/spendings', 'WebController@spendings');

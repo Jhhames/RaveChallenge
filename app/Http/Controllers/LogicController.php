@@ -9,6 +9,7 @@ use Auth;
 use GuzzleHttp\Psr7;
 use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\Exception\ConnectException;
+use App\Card;
 
 
 class LogicController extends Controller
@@ -32,7 +33,7 @@ class LogicController extends Controller
         $saving->status = 'active';
 
         if($savings->save()){
-            return response()->json($savings);
+            return rediecr()->route('/savig');
         }else{
             return response()->json('unable to connect', 402);
         }
@@ -48,19 +49,20 @@ class LogicController extends Controller
 
             $client = new GuzzleClient([
                 'base_uri' => 'https://ravesandboxapi.flutterwave.com',
-                'timeout' => 10
+                'timeout' => 20
             ]);
             $data = array(
-                'PBFPubKey' => $this->publicKey,
-                'cardno'=> $request->input('card-number'),
-                'cvv' => $request->input('cvv'),
-                'amount' => '500.00',
-                'phonenumber' => '08165906890',
-                'firstname'=> 'Jammes',
-                'lastname' => 'falola',
-                'expiryyear' => $request->input('year'),
-                'expirymonth' => $request->input('month'),
-                'email' => 'fjhhames@gmail.com ',
+                "PBFPubKey" => $this->publicKey,
+                'cardno'=>'5399838383838381',
+                // 'cardno'=> $request->input('card-number'),
+                'cvv' =>'470',
+                // 'cvv' => $request->input('cvv'),
+                "amount" => "50",
+                'expiryyear' => '22',
+                // 'expiryyear' => $request->input('year'),
+                'expirymonth' => '10',
+                // 'expirymonth' => $request->input('month'),
+                'email' => Auth::user()->email,
                 'IP' =>$_SERVER['REMOTE_ADDR'],
                 'suggested_auth' => 'pin',
                 'pin' => '3310',
@@ -68,7 +70,7 @@ class LogicController extends Controller
             );
 
             $jsonData = json_encode($data);
-            $encKey = $this->getKey($this->publicKey);
+            $encKey = $this->getKey($this->secretKey);
             $clientKey = $this->encrypt3Des($jsonData, $encKey);
              
             $postdata = array(
@@ -79,23 +81,13 @@ class LogicController extends Controller
             $postdata = json_encode($postdata);
 
             // return $clientKey;
-            // $jsonData = json_encode(
-            //     [
-            //     "seckey" => $this->secretKey,
-            //     "from"=> "2018-01-01",
-            //     "to"=> "2018-12-30",
-            //     "currency"=> "NGN",
-            //     "status"=> "successful"
-            //     ]
-            //     );
+ 
             try{
-                $response = $client->request('post','/v2/gpx/paymentplans/create',[
+                $response = $client->request('post','/flwv3-pug/getpaidx/api/charge',[
                     'headers' => [
                         'Content-Type'=> 'application/json',
-
-
                     ],
-                    'body' => $jsonData,
+                    'body' => $postdata,
                 ]);
 
                 $body = $response->getBody();
@@ -108,11 +100,63 @@ class LogicController extends Controller
             }
 
             if(isset($error)){
-                print $error;
+                return redirect()->route('/addcard')->with('message', $error);
             }else{
-                print_r(json_decode($body));
+                // print_r(json_decode($body));
+                $responseArray = json_decode($body);
+                $transaction_ref =  $responseArray->data->flwRef;
+
+                try{
+                    $response = $client->request('post','flwv3-pug/getpaidx/api/validatecharge',[
+                        'body' => json_encode([
+                            'PBFPubKey' => $this->publicKey,
+                            'transaction_reference' => $transaction_ref,
+                            'otp' => '12345'
+                        ]),
+                        'headers'=> [
+                            'Content-Type' => 'application/json'
+                        ]
+                    ]);
+
+                    $resbody = $response->getBody();
+                }catch(ClientException $e){
+                    $errorMessage = $e->getMessage();
+                }catch(ConnectException $e){
+                    $errorMessage = $e->getMessage();
+                }catch(\Exception $e){
+                    $errorMessage = $e->getMessage();
+                }
+
+                if(isset($errorMessage)){
+                    // echo $errorMessage;
+                    return redirect()->route('/addcard')->with('message', $errorMessage);
+                }else{
+                    $success = json_decode($resbody);
+                    if($success->status == 'sucess'){
+                        $history = new History;
+                        $history->user = Auth::user()->email;
+                        $history->type = 'Debit';
+                        $history->amount= '#50';
+                        $history->status = 'Successful';
+
+                        $history->save();
+                    }
+                    // print_r($success);
+                    $card_token = $success->data->tx->chargeToken->embed_token;
+                    // echo $card_token;
+
+                    $cardDetail = new Card;
+                    $cardDetail->user = Auth::user()->email;
+                    $cardDetail->token = $card_token;
+
+                    if($cardDetail->save()){
+                        return redirect()->route('/addcard')->with('message', 'Card Added Successfully, you`ve been charged #50');
+                    }else{
+                        return redirect()->route('/addcard')->with('message', 'Error saving card detail,try again');
+                    }
+                }
             }
-                
+                       
     }
 
     protected function getKey($seckey){

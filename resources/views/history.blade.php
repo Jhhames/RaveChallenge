@@ -81,6 +81,7 @@
                 <div class="container-fluid">
                     <div class="row">
                         <div class="table-responsive shadow shadow-lg">
+                            
                             <table class="table table-striped ">
                                 <thead class="black white-text">
                                     <tr>
@@ -92,14 +93,19 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <th scope="row">1</th>
-                                        <td>02 : 07 : 2018</td>
-                                        <td>Expense</td>
-                                        <td>$2,000</td>
-                                        <td> Successful </td>
-                                    </tr>
-
+                                    @if($data !== null)
+                                        @foreach($data as $history)
+                                        <tr>
+                                            <th scope="row"> {{ $history->id }} </th>
+                                            <td> {{ $history->created_at }} </td>
+                                            <td> {{ $history->type }} </td>
+                                            <td> {{ $history->amount }} </td>
+                                            <td> {{$history->status}} </td>
+                                        </tr>
+                                        @endforeach
+                                    @else
+                                        No Transaction recorded yet
+                                    @endif
                                 </tbody>
                             </table>
                         </div>
